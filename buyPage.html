@@ -1,0 +1,256 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tickets - Transit App</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            --bg-black: #000000;
+            --card-bg: #000000ff;
+            --inner-card-bg: #333333;
+            --accent-blue: #00a0df;
+            --text-white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        .menu-icon {
+            width: 25px;
+            height: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-icon span {
+            height: 2px;
+            background-color: var(--accent-blue);
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .refresh-icon {
+            color: var(--accent-blue);
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        main {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: var(--accent-blue);
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+
+        /* Ticket Card */
+        .ticket-container {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            border: 1px solid rgba(93, 93, 93, 0.5);
+            box-shadow: 0 4px 15px rgba(93, 93, 93, 0.5);
+            margin-bottom: 300px;
+        }
+
+        .logo-section {
+            width: 60px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .go-to-logo {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            box-sizing: border-box;
+        }
+        .buyTicket {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            box-sizing: border-box;
+        }
+
+        .ticket-details {
+            flex-grow: 1;
+            background-color: var(--inner-card-bg);
+            border-radius: 4px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ticket-type {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* --- THE NEW SPLIT BUTTON SECTION --- */
+        .button-timer-wrapper {
+            display: flex;
+            overflow: hidden;
+            border-radius: 12px;
+            height: 50px;
+            border: 3px solid #00a0df;
+        }
+
+        /* Left Side: White Button */
+        .view-ticket-btn {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            border: none;
+            flex: 2; /* Takes up more space */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 100;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Right Side: Blue Timer Section */
+        .timer-section {
+            background-color: var(--accent-blue);
+            color: white;
+            flex: 1; /* Takes up less space */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+        }
+
+        .timer-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            
+        }
+
+        .timer-value {
+            font-size: 12px;
+        }
+
+        /* Footer Button */
+        .footer-action {
+            padding: 20px;
+        }
+
+        .buy-button {
+            background-color: var(--accent-blue);
+            color: black;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <h1>My Tickets</h1>
+        <div class="refresh-icon">↻</div>
+    </header>
+
+    <main>
+        <h2>Stored Tickets</h2>
+
+        <div class="ticket-container">
+            <div class="logo-section">
+                <div class="logo-placeholder">
+                    <div class="go-to-logo-container">
+                        <img src="data:image/png;base64,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" alt="Go To Logo" class="go-to-logo">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ticket-details">
+                <div class="ticket-type">Adult All-Day</div>
+                <div class="button-timer-wrapper">
+                    <button class="view-ticket-btn" onclick="window.location.href='ticket.html'">
+                        View This Ticket <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA5CAYAAAB55gg1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAN2SURBVGhD7Zi/SuxAFMbPvaJ2PoGt1VY22fhvtUxtLVjaKYiIYmHjC1hpo6CFb2Ajq6j7BilsBBU2iAsu/gVxUb/bmNzknGR3ZjaJey/7gw8230xm5uMkmWR/ERHoP+I3N/51uoE6nW6gTqcbqNP5kUDFYpEODw/p6OiIxsfHeXPbIE/Zto2rqyv4eJ4n+rQpYWQm27aDIGE8z0OpVBL9DSWMTMQrw0mxUsLIRM3C+KRUJWGkqlaV4ZTLZTGGpoSRqnTCAECtVhNjaEoYqWhoaEg7zOvrK6ampsRYmhJGKtre3ubrbcn+/r4YR1epb6yWZREAmpycJMuyaHZ2lur1Ou8Wy+XlJbeMEClNZds2rq+vAQALCwuB7zgOL0Ys5+fnYkwDCcNY4XtmeXk50qbK6upq5LyNjQ2cnZ1hZGREzJcgYWgr6dF8c3MT9EkDxc1XGNqKC+OztbWFg4MDAIDrunh7e+NdtFDYfIWhrKTKxBF+HDuOg6enJ95FmRbvfsJQlmoYAJiZmYmcu7a2xrto0eTyE0ZL6VQmjH9PDQwMoFKp8GZtCoWCWJt2INMwPpVKBbe3t8D3/WWyAfv09fWJ9WkFSvqeMeH+/j4Y13EcPD8/8y6JvL+/Y25uTqzvW8KIVbuV4Xx+fkbG393d5V1iaREGyoHSDOMzOjoajL+3t8ebY2kRBi0DpV0ZztfXV/B7enoai4uLkXYfhcqoBcoyTBjXdYM56/U6b1YNg8RAWVeG8/j4GJn/5OQE0KuML2GAcqxMmPALqOu6gF5lfEWNvCuTxObmJl+oqv4eWJbVEWEeHh4wPDzMF6qkX98/iIioWq3S4OCgf/gjNBoN6u/v57YykU/wi4uL8GHuNBoNmp+f57Y2QbnGxsbgeR6/AnLD4AEQJ2GgVCrxuTLF4NHcTMIAEeVaqRTDIDEQEWFiYiKY9OXlBTs7O1hZWcHx8XHklcWUlCvjSxgRlctl1Go18cm7tLTE16dNBmHQMlAzmZJRZXwJQ1kmZBwmurHq0NPTQx8fH9xuSrubpgrG/22vr69zqylpbZoqiLKp6PT0lF9NTcnyMmMShpKKxSJfcyxZ3zMxEoayqtUqX78g5zBoKxCxzTfMD1TGlzC0xSv1g2GQSiAKVeru7k605SxhGKtQKKC3t1f4ecp4Y+1UjDfWTqUbqNP5A8CWD0O2vjSnAAAAAElFTkSuQmCC" alt="ticket" class="buyTicket">
+                    </button>
+                    <div class="timer-section">
+                        <span class="timer-label">Time Left</span>
+                        <span class="timer-value" id="countdown"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="footer-action">
+        <button class="buy-button">Buy Tickets</button>
+    </div>
+
+    <script>
+        function updateTimer() {
+            const now = new Date();
+            
+            // Set the target to 2:00 AM of the NEXT day
+            let target = new Date();
+            target.setDate(now.getDate() + 1);
+            target.setHours(2, 0, 0, 0);
+
+            const diff = target - now;
+
+            // Math to break down milliseconds
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Formatting the string (e.g., "18h 42m 05s")
+            // Or use "X hours" if that's preferred
+            document.getElementById('countdown').innerHTML = `${hours} hours`;
+        }
+
+        // Run every second
+        setInterval(updateTimer, 1000);
+        updateTimer(); // Run immediately on load
+    </script>
+
+</body>
+</html>

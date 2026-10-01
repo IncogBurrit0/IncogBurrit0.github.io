@@ -1,0 +1,36 @@
+{
+   "name": "Ticket777",
+   "short_name": "Ticket777",
+   "start_url": "/",
+   "scope": "/",
+   "display": "standalone",
+   "background_color": "#ffffff",
+   "theme_color": "#212121",
+   "icons": [
+      {
+         "src": "/MT-192.png",
+         "sizes": "192x192",
+         "type": "image/png"
+      },
+      {
+         "src": "/MT-512.png",
+         "sizes": "512x512",
+         "type": "image/png"
+      }
+   ],
+   "screenshots": [
+      {
+         "src": "/MT-512.png",
+         "sizes": "512x512",
+         "type": "image/png",
+         "label": "App main screen"
+      },
+      {
+         "src": "/MT-512.png",
+         "sizes": "512x512",
+         "type": "image/png",
+         "label": "Wide screenshot for desktop",
+         "form_factor": "wide"
+      }
+   ]
+}
