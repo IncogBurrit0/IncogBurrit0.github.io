@@ -156,25 +156,77 @@
       <a href="mailto:your-email@example.com" class="bubble-btn">
         <span>✉️</span> Contact Me
       </a>
-
-        <!-- Accessibility Floating Link -->
-      <a 
-        href="ticket/ticket.html" 
-        class="accessibility-btn" 
-        aria-label="Open accessibility page"
-      >
-        <!-- Universal Accessibility SVG Icon -->
-        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" aria-hidden="true">
-            <circle cx="12" cy="4" r="2" />
-            <path d="M15.89 8.11C15.5 7.72 14.83 7 13.53 7h-3.06c-1.3 0-1.97.72-2.36 1.11L4 12.25l1.41 1.41L9 10.08V22h2v-6h2v6h2V10.08l3.59 3.58L20 12.25l-4.11-4.14z"/>
-        </svg>
-      </a>
     </div>
 
     <footer>
       © 2026 Erik Jiang • Hosted on GitHub Pages
     </footer>
   </main>
-  
+  <!-- Accessibility Floating Button -->
+<button 
+  id="accessibility-btn" 
+  class="accessibility-btn" 
+  aria-label="Open accessibility menu"
+  onclick="handleAccessibilityClick()"
+>
+  <!-- Universal Accessibility SVG Icon -->
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" aria-hidden="true">
+    <circle cx="12" cy="4" r="2" />
+    <path d="M15.89 8.11C15.5 7.72 14.83 7 13.53 7h-3.06c-1.3 0-1.97.72-2.36 1.11L4 12.25l1.41 1.41L9 10.08V22h2v-6h2v6h2V10.08l3.59 3.58L20 12.25l-4.11-4.14z"/>
+  </svg>
+</button>
+
+<style>
+  /* Fixed Bottom-Right Button */
+  .accessibility-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999; /* Keeps it on top of all other elements */
+    
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    
+    /* Colors & Border */
+    background-color: #0056b3; /* High-contrast blue */
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    
+    /* Centering icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Shadow & Cursor */
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Hover & Active states */
+  .accessibility-btn:hover {
+    background-color: #003d82;
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  }
+
+  .accessibility-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* Accessible focus ring for keyboard navigation (Tab key) */
+  .accessibility-btn:focus-visible {
+    outline: 3px solid #ffbf47;
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  function handleAccessibilityClick() {
+    // Replace this with your own logic (e.g., opening a menu, toggling high-contrast mode, etc.)
+   window.location.href = "ticket/ticket.html";
+  }
+</script>
 </body>
 </html>
