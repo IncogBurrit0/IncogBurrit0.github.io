@@ -1,11 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homepage</title>
+  <style>
+    /* CSS Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Soft modern gradient background */
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      color: #ffffff;
+      padding: 20px;
+    }
+
+    /* Card Container */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Optional Avatar Circle */
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #3b82f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      border: 3px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Header */
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+
+    /* Links Container */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Bubble / Pill Buttons */
+    .bubble-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      background: #ffffff;
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 9999px; /* Gives the classic pill/bubble shape */
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: all 0.25s ease-in-out;
+      border: 2px solid transparent;
+    }
+
+    /* Hover & Active Effects */
+    .bubble-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      background-color: #f8fafc;
+    }
+
+    .bubble-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Optional Accent Style (for a featured button) */
+    .bubble-btn.featured {
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: #ffffff;
+    }
+
+    .bubble-btn.featured:hover {
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+  </style>
 </head>
 <body>
-    hi
+
+  <main class="container">
+    <!-- Avatar / Icon (You can replace the emoji with an <img> tag) -->
+    <div class="avatar">🚀</div>
+
+    <!-- Title & Subtitle -->
+    <h1>Homepage</h1>
+    <p class="subtitle">Welcome! Choose where you want to go below:</p>
+
+    <!-- Bubble Buttons -->
+    <div class="links">
+      <!-- Internal Folder Links (Connecting from your repo structure) -->
+      <a href="about/about.html" class="bubble-btn featured">
+        <span>👤</span> About Me
+      </a>
+
+      <a href="projects/" class="bubble-btn">
+        <span>📁</span> My Projects
+      </a>
+
+      <a href="blog/" class="bubble-btn">
+        <span>📝</span> Read My Blog
+      </a>
+
+      <!-- External Links -->
+      <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer" class="bubble-btn">
+        <span>🐙</span> GitHub Profile
+      </a>
+
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="bubble-btn">
+        <span>💼</span> LinkedIn
+      </a>
+
+      <a href="mailto:your-email@example.com" class="bubble-btn">
+        <span>✉️</span> Contact Me
+      </a>
+    </div>
+
+    <footer>
+      © 2026 Your Name • Hosted on GitHub Pages
+    </footer>
+  </main>
+
 </body>
 </html>
