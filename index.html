@@ -151,7 +151,7 @@
   id="accessibility-btn" 
   class="accessibility-btn" 
   aria-label="Open accessibility menu"
-  onclick="handleAccessibilityClick()"
+  onclick="checkPassword()"
 >
   <!-- Universal Accessibility SVG Icon -->
   <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" aria-hidden="true">
@@ -207,10 +207,19 @@
 </style>
 
 <script>
-  function handleAccessibilityClick() {
-    // Replace this with your own logic (e.g., opening a menu, toggling high-contrast mode, etc.)
-   window.location.href = "ticket/ticket.html";
-  }
+  function checkPassword() {
+      // 1. Ask the user for the password
+      const password = prompt("Enter the password to access this page:");
+
+      // 2. Check if the password matches
+      if (password === "train") {
+        // Redirect to the protected page
+        window.location.href = "ticket.html";
+      } else if (password !== null) {
+        // If the user entered the wrong password (and didn't click Cancel)
+        alert("Incorrect password. Access denied.");
+      }
+    }
 </script>
 </body>
 </html>
