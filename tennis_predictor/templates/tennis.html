@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -66,6 +66,11 @@
         gap: 16px;
         margin-bottom: 16px;
       }
+      @media (max-width: 600px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
       .form-group {
         display: flex;
         flex-direction: column;
@@ -103,15 +108,17 @@
         font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
-        transition:
-          background-color 0.2s,
-          transform 0.1s;
+        transition: background-color 0.2s, transform 0.1s;
       }
       .btn:hover {
         background: #34d399;
       }
       .btn:active {
         transform: scale(0.99);
+      }
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
       }
       #error-msg {
         background: rgba(239, 68, 68, 0.15);
@@ -122,6 +129,7 @@
         margin-bottom: 20px;
         display: none;
         font-size: 0.9rem;
+        line-height: 1.4;
       }
       /* Results View */
       #result-view {
@@ -211,19 +219,13 @@
         text-align: left;
         color: var(--text-muted);
       }
-      .badge {
-        font-size: 0.75rem;
-        padding: 2px 8px;
-        border-radius: 4px;
-        background: #334155;
-      }
     </style>
   </head>
   <body>
     <div class="container">
       <header>
         <h1>🎾 Tennis Markov Predictor</h1>
-        <p>Serve-Return Interaction & Non-Linear Markov Probability Model</p>
+        <p>Live SofaScore Integration & Non-Linear Markov Probability Model</p>
       </header>
 
       <div class="card">
@@ -234,9 +236,9 @@
             <div class="form-group">
               <label for="playerA">Player 1</label>
               <input
-                list="player-list"
+                type="text"
                 id="playerA"
-                placeholder="Type name (e.g. Alcaraz)"
+                placeholder="e.g. Carlos Alcaraz, Sabalenka, Shang"
                 required
                 autocomplete="off"
                 value="Carlos Alcaraz"
@@ -245,34 +247,14 @@
             <div class="form-group">
               <label for="playerB">Player 2</label>
               <input
-                list="player-list"
+                type="text"
                 id="playerB"
-                placeholder="Type name (e.g. Sinner)"
+                placeholder="e.g. Jannik Sinner, Swiatek, Mensik"
                 required
                 autocomplete="off"
                 value="Jannik Sinner"
               />
             </div>
-          </div>
-
-          <!-- You can keep the text inputs completely open so users can type any player -->
-          <div class="form-group">
-            <label for="playerA">Player 1</label>
-            <input
-              type="text"
-              id="playerA"
-              placeholder="e.g. Shang Juncheng, Alcaraz, Sabalenka"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="playerB">Player 2</label>
-            <input
-              type="text"
-              id="playerB"
-              placeholder="e.g. Mensik, Sinner, Swiatek"
-              required
-            />
           </div>
 
           <div class="form-grid">
@@ -379,12 +361,12 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         errorBox.style.display = "none";
-        submitBtn.innerText = "Calculating...";
+        submitBtn.innerText = "Querying SofaScore & Calculating...";
         submitBtn.disabled = true;
 
         const payload = {
-          playerA: document.getElementById("playerA").value,
-          playerB: document.getElementById("playerB").value,
+          playerA: document.getElementById("playerA").value.trim(),
+          playerB: document.getElementById("playerB").value.trim(),
           surface: document.getElementById("surface").value,
           best_of: document.getElementById("best_of").value,
         };
@@ -395,63 +377,56 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
           });
-          const data = await res.json();
+
+          // Safely read response text first to prevent JSON parse crashes
+          const rawText = await res.text();
+          let data;
+
+          try {
+            data = JSON.parse(rawText);
+          } catch (jsonErr) {
+            throw new Error(
+              `Server returned an invalid response (HTTP ${res.status}). Ensure your Flask backend is running and accessed via http://127.0.0.1:5000 (not by opening the HTML file directly).`
+            );
+          }
 
           if (!res.ok) {
-            throw new Error(data.error || "Server error occurred.");
+            throw new Error(data.error || `Server returned error ${res.status}.`);
           }
 
           // Populate results
           document.getElementById("winner-display").innerText = data.winner;
-          document.getElementById("confidence-display").innerText =
-            `${data.confidence_pct}%`;
+          document.getElementById("confidence-display").innerText = `${data.confidence_pct}%`;
 
-          // Update Meter
-          document.getElementById("label-name-a").innerText =
-            `${data.playerA.name}: ${data.playerA.match_win_pct}%`;
-          document.getElementById("label-name-b").innerText =
-            `${data.playerB.name}: ${data.playerB.match_win_pct}%`;
-          document.getElementById("prob-bar").style.width =
-            `${data.playerA.match_win_pct}%`;
+          // Update Progress Bar
+          document.getElementById("label-name-a").innerText = `${data.playerA.name}: ${data.playerA.match_win_pct}%`;
+          document.getElementById("label-name-b").innerText = `${data.playerB.name}: ${data.playerB.match_win_pct}%`;
+          document.getElementById("prob-bar").style.width = `${data.playerA.match_win_pct}%`;
 
-          // Update Breakdown Table
+          // Update Comparison Table
           document.getElementById("th-name-a").innerText = data.playerA.name;
           document.getElementById("th-name-b").innerText = data.playerB.name;
 
-          document.getElementById("meta-a").innerText =
-            `${data.playerA.handedness}-Handed | ${data.playerA.archetype}`;
-          document.getElementById("meta-b").innerText =
-            `${data.playerB.handedness}-Handed | ${data.playerB.archetype}`;
+          document.getElementById("meta-a").innerText = `${data.playerA.handedness}-Handed | ${data.playerA.archetype}`;
+          document.getElementById("meta-b").innerText = `${data.playerB.handedness}-Handed | ${data.playerB.archetype}`;
 
-          document.getElementById("match-a").innerText =
-            `${data.playerA.match_win_pct}%`;
-          document.getElementById("match-b").innerText =
-            `${data.playerB.match_win_pct}%`;
+          document.getElementById("match-a").innerText = `${data.playerA.match_win_pct}%`;
+          document.getElementById("match-b").innerText = `${data.playerB.match_win_pct}%`;
 
-          document.getElementById("set-a").innerText =
-            `${data.playerA.set_win_pct}%`;
-          document.getElementById("set-b").innerText =
-            `${data.playerB.set_win_pct}%`;
+          document.getElementById("set-a").innerText = `${data.playerA.set_win_pct}%`;
+          document.getElementById("set-b").innerText = `${data.playerB.set_win_pct}%`;
 
-          document.getElementById("hold-a").innerText =
-            `${data.playerA.hold_pct}%`;
-          document.getElementById("hold-b").innerText =
-            `${data.playerB.hold_pct}%`;
+          document.getElementById("hold-a").innerText = `${data.playerA.hold_pct}%`;
+          document.getElementById("hold-b").innerText = `${data.playerB.hold_pct}%`;
 
-          document.getElementById("break-a").innerText =
-            `${data.playerA.break_pct}%`;
-          document.getElementById("break-b").innerText =
-            `${data.playerB.break_pct}%`;
+          document.getElementById("break-a").innerText = `${data.playerA.break_pct}%`;
+          document.getElementById("break-b").innerText = `${data.playerB.break_pct}%`;
 
-          document.getElementById("pt-a").innerText =
-            `${data.playerA.point_serve_pct}%`;
-          document.getElementById("pt-b").innerText =
-            `${data.playerB.point_serve_pct}%`;
+          document.getElementById("pt-a").innerText = `${data.playerA.point_serve_pct}%`;
+          document.getElementById("pt-b").innerText = `${data.playerB.point_serve_pct}%`;
 
-          document.getElementById("fatigue-a").innerText =
-            `${data.playerA.fatigue}`;
-          document.getElementById("fatigue-b").innerText =
-            `${data.playerB.fatigue}`;
+          document.getElementById("fatigue-a").innerText = `${data.playerA.fatigue}`;
+          document.getElementById("fatigue-b").innerText = `${data.playerB.fatigue}`;
 
           resultView.style.display = "block";
         } catch (err) {

@@ -7,7 +7,7 @@ sofascore = SofaScoreTennisClient()
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("tennis.html")
 
 @app.route("/api/predict", methods=["POST"])
 def api_predict():
