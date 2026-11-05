@@ -1,225 +1,242 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Homepage</title>
-  <style>
-    /* CSS Reset & Base Styles */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'JetBrains Mono', "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #566038;
-      color: #EDE8D0;
-      padding: 20px;
-    }
-
-    /* Card Container */
-    .container {
-      width: 100%;
-      max-width: 480px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* Header */
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-top: 50px;
-      margin-bottom: 50px;
-    }
-
-    .subtitle {
-      font-size: 0.95rem;
-      color: #EDE8D0;
-      margin-bottom: 32px;
-    }
-
-    /* Links Container */
-    .links {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    /* Bubble / Pill Buttons */
-    .bubble-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 16px 24px;
-      background: #ffffff;
-      color: #0f172a;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 9999px; /* Gives the classic pill/bubble shape */
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-      transition: all 0.25s ease-in-out;
-      border: 2px solid transparent;
-    }
-
-    /* Hover & Active Effects */
-    .bubble-btn:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-      background-color: #f8fafc;
-    }
-
-    .bubble-btn:active {
-      transform: translateY(0) scale(0.98);
-    }
-
-    /* Optional Accent Style (for a featured button) */
-    .bubble-btn.featured {
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      color: #ffffff;
-    }
-
-    .bubble-btn.featured:hover {
-      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 40px;
-      font-size: 0.8rem;
-      color: #98A869;
-    }
-  </style>
-</head>
-<body>
-
-  <main class="container">
-
-    <!-- Title & Subtitle -->
-    <h1>^_^ Treasures ^_^</h1>
-    <p class="subtitle">Welcome! Choose where you want to go below</p>
-
-    <!-- Bubble Buttons -->
-    <div class="links">
-      <!-- Internal Folder Links (Connecting from your repo structure) -->
-      <a href="about/about.html" class="bubble-btn featured">
-        <span>👤</span> About Me
-      </a>
-
-      <a href="projects/" class="bubble-btn">
-        <span>📁</span> My Projects
-      </a>
-
-      <a href="blog/" class="bubble-btn">
-        <span>📝</span> Read My Blog
-      </a>
-
-      <!-- External Links -->
-      <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer" class="bubble-btn">
-        <span>🐙</span> GitHub Profile
-      </a>
-
-      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="bubble-btn">
-        <span>💼</span> LinkedIn
-      </a>
-
-      <a href="mailto:your-email@example.com" class="bubble-btn">
-        <span>✉️</span> Contact Me
-      </a>
-    </div>
-
-    <footer>
-      © 2026 Erik Jiang • Hosted on GitHub Pages
-    </footer>
-  </main>
-  <!-- Accessibility Floating Button -->
-<button 
-  id="accessibility-btn" 
-  class="accessibility-btn" 
-  aria-label="Open accessibility menu"
-  onclick="checkPassword()"
->
-  <!-- Universal Accessibility SVG Icon -->
-  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" aria-hidden="true">
-    <circle cx="12" cy="4" r="2" />
-    <path d="M15.89 8.11C15.5 7.72 14.83 7 13.53 7h-3.06c-1.3 0-1.97.72-2.36 1.11L4 12.25l1.41 1.41L9 10.08V22h2v-6h2v6h2V10.08l3.59 3.58L20 12.25l-4.11-4.14z"/>
-  </svg>
-</button>
-
-<style>
-  /* Fixed Bottom-Right Button */
-  .accessibility-btn {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999; /* Keeps it on top of all other elements */
-    
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    
-    /* Colors & Border */
-    background-color: #0056b3; /* High-contrast blue */
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    
-    /* Centering icon */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    /* Shadow & Cursor */
-    cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  /* Hover & Active states */
-  .accessibility-btn:hover {
-    background-color: #003d82;
-    transform: scale(1.08);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
-  }
-
-  .accessibility-btn:active {
-    transform: scale(0.95);
-  }
-
-  /* Accessible focus ring for keyboard navigation (Tab key) */
-  .accessibility-btn:focus-visible {
-    outline: 3px solid #ffbf47;
-    outline-offset: 3px;
-  }
-</style>
-
-<script>
-  function checkPassword() {
-      // 1. Ask the user for the password
-      const password = prompt("Enter the password to access this page:");
-
-      // 2. Check if the password matches
-      if (password === "train") {
-        // Redirect to the protected page
-        window.location.href = "ticket/ticket.html";
-      } else if (password !== null) {
-        // If the user entered the wrong password (and didn't click Cancel)
-        alert("Incorrect password. Access denied.");
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=JetBrains Mono"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <style>
+      /* CSS Reset & Base Styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-    }
-</script>
-</body>
+
+      body {
+        font-family:
+          "JetBrains Mono", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #566038;
+        color: #ede8d0;
+        padding: 20px;
+      }
+
+      /* Card Container */
+      .container {
+        width: 100%;
+        max-width: 480px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* Header */
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+        color: #ede8d0;
+        margin-bottom: 32px;
+      }
+
+      /* Links Container */
+      .links {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* Bubble / Pill Buttons */
+      .bubble-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 16px 24px;
+        background: #ffffff;
+        color: #0f172a;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 9999px; /* Gives the classic pill/bubble shape */
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        transition: all 0.25s ease-in-out;
+        border: 2px solid transparent;
+      }
+
+      /* Hover & Active Effects */
+      .bubble-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        background-color: #f8fafc;
+      }
+
+      .bubble-btn:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      /* Optional Accent Style (for a featured button) */
+      .bubble-btn.featured {
+        background: linear-gradient(135deg, #3b82f6, #6366f1);
+        color: #ffffff;
+      }
+
+      .bubble-btn.featured:hover {
+        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 40px;
+        font-size: 0.8rem;
+        color: #98a869;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <!-- Title & Subtitle -->
+      <h1>^_^ Treasures ^_^</h1>
+      <p class="subtitle">Welcome! Choose where you want to go below</p>
+
+      <!-- Bubble Buttons -->
+      <div class="links">
+        <!-- Internal Folder Links (Connecting from your repo structure) -->
+        <a href="about/about.html" class="bubble-btn featured">
+          <span>👤</span> About Me
+        </a>
+
+        <a href="tennis_predictor/templates/tennis.html" class="bubble-btn"> <span>📁</span> My Projects </a>
+
+        <a href="blog/" class="bubble-btn"> <span>📝</span> Read My Blog </a>
+
+        <!-- External Links -->
+        <a
+          href="https://github.com/your-username"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bubble-btn"
+        >
+          <span>🐙</span> GitHub Profile
+        </a>
+
+        <a
+          href="https://linkedin.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bubble-btn"
+        >
+          <span>💼</span> LinkedIn
+        </a>
+
+        <a href="mailto:your-email@example.com" class="bubble-btn">
+          <span>✉️</span> Contact Me
+        </a>
+      </div>
+
+      <footer>© 2026 Erik Jiang • Hosted on GitHub Pages</footer>
+    </main>
+    <!-- Accessibility Floating Button -->
+    <button
+      id="accessibility-btn"
+      class="accessibility-btn"
+      aria-label="Open accessibility menu"
+      onclick="checkPassword()"
+    >
+      <!-- Universal Accessibility SVG Icon -->
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        width="28"
+        height="28"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="4" r="2" />
+        <path
+          d="M15.89 8.11C15.5 7.72 14.83 7 13.53 7h-3.06c-1.3 0-1.97.72-2.36 1.11L4 12.25l1.41 1.41L9 10.08V22h2v-6h2v6h2V10.08l3.59 3.58L20 12.25l-4.11-4.14z"
+        />
+      </svg>
+    </button>
+
+    <style>
+      /* Fixed Bottom-Right Button */
+      .accessibility-btn {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999; /* Keeps it on top of all other elements */
+
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+
+        /* Colors & Border */
+        background-color: #0056b3; /* High-contrast blue */
+        color: #ffffff;
+        border: 2px solid #ffffff;
+
+        /* Centering icon */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        /* Shadow & Cursor */
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        transition:
+          transform 0.2s ease,
+          background-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      /* Hover & Active states */
+      .accessibility-btn:hover {
+        background-color: #003d82;
+        transform: scale(1.08);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+      }
+
+      .accessibility-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* Accessible focus ring for keyboard navigation (Tab key) */
+      .accessibility-btn:focus-visible {
+        outline: 3px solid #ffbf47;
+        outline-offset: 3px;
+      }
+    </style>
+
+    <script>
+      function checkPassword() {
+        // 1. Ask the user for the password
+        const password = prompt("Enter the password to access this page:");
+
+        // 2. Check if the password matches
+        if (password === "train") {
+          // Redirect to the protected page
+          window.location.href = "ticket/ticket.html";
+        } else if (password !== null) {
+          // If the user entered the wrong password (and didn't click Cancel)
+          alert("Incorrect password. Access denied.");
+        }
+      }
+    </script>
+  </body>
 </html>

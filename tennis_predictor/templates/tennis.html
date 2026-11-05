@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tennis Match Probability Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --tennis-green: #10b981;
+      --accent: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 850px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      margin-bottom: 24px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    input, select {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus {
+      border-color: var(--tennis-green);
+    }
+    .btn {
+      width: 100%;
+      background: var(--tennis-green);
+      color: #022c22;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .btn:hover {
+      background: #34d399;
+    }
+    .btn:active {
+      transform: scale(0.99);
+    }
+    #error-msg {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 0.9rem;
+    }
+    /* Results View */
+    #result-view {
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .winner-banner {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(56, 189, 248, 0.1));
+      border: 1px solid var(--tennis-green);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .winner-title {
+      font-size: 0.85rem;
+      color: var(--tennis-green);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .winner-name {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 4px 0;
+    }
+    .confidence-badge {
+      display: inline-block;
+      background: var(--tennis-green);
+      color: #022c22;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+    /* Probability Meter */
+    .bar-container {
+      margin: 20px 0;
+    }
+    .bar-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .progress-bar-wrap {
+      width: 100%;
+      height: 14px;
+      background: #0f172a;
+      border-radius: 7px;
+      overflow: hidden;
+      display: flex;
+    }
+    .progress-fill {
+      background: var(--tennis-green);
+      height: 100%;
+      transition: width 0.5s ease-out;
+    }
+    .table-view {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+    .table-view th, .table-view td {
+      padding: 10px 12px;
+      text-align: center;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .table-view th:first-child, .table-view td:first-child {
+      text-align: left;
+      color: var(--text-muted);
+    }
+    .badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🎾 Tennis Markov Predictor</h1>
+    <p>Serve-Return Interaction & Non-Linear Markov Probability Model</p>
+  </header>
+
+  <div class="card">
+    <div id="error-msg"></div>
+
+    <form id="predict-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="playerA">Player 1</label>
+          <input list="player-list" id="playerA" placeholder="Type name (e.g. Alcaraz)" required autocomplete="off" value="Carlos Alcaraz">
+        </div>
+        <div class="form-group">
+          <label for="playerB">Player 2</label>
+          <input list="player-list" id="playerB" placeholder="Type name (e.g. Sinner)" required autocomplete="off" value="Jannik Sinner">
+        </div>
+      </div>
+
+      <datalist id="player-list">
+        {% for name in players %}
+          <option value="{{ name }}"></option>
+        {% endfor %}
+      </datalist>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="surface">Court Surface & Pace</label>
+          <select id="surface">
+            <option value="Hard">Hard Court (CPI 38)</option>
+            <option value="Clay">Clay Court (CPI 26)</option>
+            <option value="Grass">Grass Court (CPI 44)</option>
+            <option value="Indoor Hard">Indoor Fast (CPI 42)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="best_of">Format</label>
+          <select id="best_of">
+            <option value="3">Best of 3 Sets</option>
+            <option value="5">Best of 5 Sets (Grand Slam)</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn" id="submit-btn">Run Prediction</button>
+    </form>
+  </div>
+
+  <!-- Prediction Result Card -->
+  <div class="card" id="result-view">
+    <div class="winner-banner">
+      <div class="winner-title">PROJECTED WINNER</div>
+      <div class="winner-name" id="winner-display">--</div>
+      <div>Confidence: <span class="confidence-badge" id="confidence-display">--%</span></div>
+    </div>
+
+    <div class="bar-container">
+      <div class="bar-labels">
+        <span id="label-name-a">Player A: --%</span>
+        <span id="label-name-b">Player B: --%</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-fill" id="prob-bar" style="width: 50%;"></div>
+      </div>
+    </div>
+
+    <table class="table-view">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th id="th-name-a">Player A</th>
+          <th id="th-name-b">Player B</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Style & Handedness</td>
+          <td id="meta-a">--</td>
+          <td id="meta-b">--</td>
+        </tr>
+        <tr>
+          <td>Match Win Probability</td>
+          <td id="match-a" style="font-weight:700">--</td>
+          <td id="match-b" style="font-weight:700">--</td>
+        </tr>
+        <tr>
+          <td>Set Win Probability</td>
+          <td id="set-a">--</td>
+          <td id="set-b">--</td>
+        </tr>
+        <tr>
+          <td>Hold Rate (Game-Level)</td>
+          <td id="hold-a">--</td>
+          <td id="hold-b">--</td>
+        </tr>
+        <tr>
+          <td>Break Rate Against Opponent</td>
+          <td id="break-a">--</td>
+          <td id="break-b">--</td>
+        </tr>
+        <tr>
+          <td>Point Win % on Serve</td>
+          <td id="pt-a">--</td>
+          <td id="pt-b">--</td>
+        </tr>
+        <tr>
+          <td>Physical Fatigue Index (0.0 to 1.0)</td>
+          <td id="fatigue-a">--</td>
+          <td id="fatigue-b">--</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('predict-form');
+  const errorBox = document.getElementById('error-msg');
+  const resultView = document.getElementById('result-view');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.style.display = 'none';
+    submitBtn.innerText = 'Calculating...';
+    submitBtn.disabled = true;
+
+    const payload = {
+      playerA: document.getElementById('playerA').value,
+      playerB: document.getElementById('playerB').value,
+      surface: document.getElementById('surface').value,
+      best_of: document.getElementById('best_of').value
+    };
+
+    try {
+      const res = await fetch('/api/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Server error occurred.');
+      }
+
+      // Populate results
+      document.getElementById('winner-display').innerText = data.winner;
+      document.getElementById('confidence-display').innerText = `${data.confidence_pct}%`;
+
+      // Update Meter
+      document.getElementById('label-name-a').innerText = `${data.playerA.name}: ${data.playerA.match_win_pct}%`;
+      document.getElementById('label-name-b').innerText = `${data.playerB.name}: ${data.playerB.match_win_pct}%`;
+      document.getElementById('prob-bar').style.width = `${data.playerA.match_win_pct}%`;
+
+      // Update Breakdown Table
+      document.getElementById('th-name-a').innerText = data.playerA.name;
+      document.getElementById('th-name-b').innerText = data.playerB.name;
+
+      document.getElementById('meta-a').innerText = `${data.playerA.handedness}-Handed | ${data.playerA.archetype}`;
+      document.getElementById('meta-b').innerText = `${data.playerB.handedness}-Handed | ${data.playerB.archetype}`;
+
+      document.getElementById('match-a').innerText = `${data.playerA.match_win_pct}%`;
+      document.getElementById('match-b').innerText = `${data.playerB.match_win_pct}%`;
+
+      document.getElementById('set-a').innerText = `${data.playerA.set_win_pct}%`;
+      document.getElementById('set-b').innerText = `${data.playerB.set_win_pct}%`;
+
+      document.getElementById('hold-a').innerText = `${data.playerA.hold_pct}%`;
+      document.getElementById('hold-b').innerText = `${data.playerB.hold_pct}%`;
+
+      document.getElementById('break-a').innerText = `${data.playerA.break_pct}%`;
+      document.getElementById('break-b').innerText = `${data.playerB.break_pct}%`;
+
+      document.getElementById('pt-a').innerText = `${data.playerA.point_serve_pct}%`;
+      document.getElementById('pt-b').innerText = `${data.playerB.point_serve_pct}%`;
+
+      document.getElementById('fatigue-a').innerText = `${data.playerA.fatigue}`;
+      document.getElementById('fatigue-b').innerText = `${data.playerB.fatigue}`;
+
+      resultView.style.display = 'block';
+    } catch (err) {
+      errorBox.innerText = err.message;
+      errorBox.style.display = 'block';
+      resultView.style.display = 'none';
+    } finally {
+      submitBtn.innerText = 'Run Prediction';
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
