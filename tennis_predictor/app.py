@@ -424,7 +424,7 @@ class TennisPredictionEngine:
 def home():
     # Return available player names for datalist autocomplete
     player_names = sorted([p.name for p in PLAYER_DATABASE.values()])
-    return render_template("index.html", players=player_names)
+    return render_template("tennis.html", players=player_names)
 
 @app.route("/api/predict", methods=["POST"])
 def api_predict():
